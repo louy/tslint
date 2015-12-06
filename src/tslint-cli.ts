@@ -212,7 +212,12 @@ files.forEach(arg => {
                 console.error(e);
             }
             if (config) {
-                if (config.exclude) {
+                if (config.files) {
+                    config.files // TODO - follow imports
+                        .map((file: string) => path.join(arg, file)) // resolve relative path
+                        .forEach(processFile);
+                    return;
+                } else if (config.exclude) {
                     globIgnore = globIgnore.concat(config.exclude);
                 }
             }
